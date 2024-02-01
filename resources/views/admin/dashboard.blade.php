@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Admin Create</title>
+    <title>Admin books dashboard</title>
 </head>
 <meta charset="utf-8">
 <body>
