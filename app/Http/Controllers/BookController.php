@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -66,4 +67,24 @@ class BookController extends Controller
         return redirect()->route('books.index')
             ->with('success', 'Book deleted successfully.');
     }
+
+
+    public function reserve(Book $book)
+    {
+        if ($book->available_copies > 0) {
+            $book->decrement('available_copies');
+
+            Reservation::create([
+                'user_id' => auth()->id(),
+                'book_id' => $book->id,
+                'reservation_date' => now(),
+                'return_date' => now()->addDays(7),
+            ]);
+            return redirect()->route('dashboard')
+                ->with('success', 'Book reserved successfully return it after 7 Days.');
+        } else {
+            return back()->with('error', 'No available copies to reserve.');
+        }
+    }
+
 }

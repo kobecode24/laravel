@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
+use App\Models\Book;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 
@@ -22,7 +24,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $books = Book::all();
+    $reservations = Reservation::all();
+    return view('dashboard', compact('books', 'reservations'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -44,5 +48,7 @@ Route::post('/reservations', [ReservationController::class, 'store'])->name('res
 Route::get('/reservations/{reservation}', [ReservationController::class, 'edit'])->name('reservations.edit');
 Route::put('/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
 Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+
+Route::post('/books/{book}/reserve', [BookController::class, 'reserve'])->name('reserve');
 
 require __DIR__.'/auth.php';
