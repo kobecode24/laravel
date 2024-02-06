@@ -18,6 +18,11 @@ class Reservation extends Model
         'status',
     ];
 
+    protected $casts = [
+        "reservation_date" => 'date',
+        "return_date" => 'date',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

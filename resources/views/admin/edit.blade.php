@@ -12,7 +12,6 @@
         @csrf
         @method('PUT')
 
-        <!-- Validation Errors -->
         <div>
             @if($errors->any())
                 <div class="space-y-1">
@@ -23,7 +22,6 @@
             @endif
         </div>
 
-        <!-- Form Fields -->
         <div>
             <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title</label>
             <input id="title" name="title" type="text" value="{{ $book->title }}"

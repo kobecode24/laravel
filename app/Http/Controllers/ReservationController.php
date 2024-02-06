@@ -42,4 +42,33 @@ class ReservationController extends Controller
         return redirect()->route('reservations.index')
             ->with('success', 'Reservation created successfully.');
     }
+
+    public function edit(Reservation $reservation)
+    {
+        $books = Book::all();
+        $users = User::all();
+        return view("admin.edit_reservation", compact('reservation','books',"users"));
+    }
+
+    public function update(Reservation $reservation,Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'book_id' => 'required',
+            'reservation_date' => 'date_equals:today',
+            'return_date' => 'after:reservation_date',
+        ]);
+
+        $reservation->update($request->all());
+
+        return redirect()->route('reservations.index');
+    }
+
+    public function destroy(Reservation $reservation)
+    {
+        $reservation->delete();
+
+        return redirect()->route('reservations.index');
+
+    }
 }
